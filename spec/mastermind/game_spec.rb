@@ -1,13 +1,13 @@
 require File.join(File.dirname(__FILE__), "/../spec_helper")
 
-module Mastermind 
-  describe Game do 
+module Mastermind
+  describe Game do
     before(:each) do
       @messenger = mock("messenger").as_null_object
       @game      = Game.new(@messenger)
     end
 
-    context "starting up" do 
+    context "starting up" do
       it "should send a welcome message (passing the code to start)" do
         @messenger.should_receive(:puts).with("Welcome to Mastermind!")
         @game.start(%w[r g y c])
@@ -115,7 +115,18 @@ module Mastermind
           @game.guess(%w[w w r w])
         end
       end
+
+      context "with duplicates in the guess that match a peg in the code" do
+        context "by color and position" do
+          it "should add a single b to the mark" do
+            #pending("writing the logic to account for this")
+            @game.start(%w[r y g c])
+            @messenger.should_receive(:puts).with("bbb")
+            @game.guess(%w[r y g g])
+          end
+        end
+      end
     end
 
   end # end Game
-end 
+end
